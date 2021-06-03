@@ -1,4 +1,4 @@
-import schema
+import models
 
 from flask import Blueprint, request, jsonify
 from flask_bcrypt import generate_password_hash, check_password_hash
@@ -17,9 +17,9 @@ def register():
     print(payload)
 
     try:
-        schema.Users.get(schema.Users.email == payload['email'])
+        models.Users.get(models.Users.email == payload['email'])
         #try for username
-        # schema.Users.get(schema.Users.username == payload['username'])
+        # models.Users.get(models.Users.username == payload['username'])
 
         return jsonify(
             data={},
@@ -27,10 +27,10 @@ def register():
             status=401
         ), 401
     
-    except schema.DoesNotExist:
+    except models.DoesNotExist:
         pw_hash = generate_password_hash(payload['password'])
 
-        created_user = schema.Users.create(
+        created_user = models.Users.create(
             username=payload['username'],
             email=payload['email'],
             password=pw_hash
@@ -58,7 +58,7 @@ def login():
     payload['username'] = payload['username'].lower()
 
     try:
-        user = schema.Users.get(schema.Users.email == payload['email'])
+        user = models.Users.get(models.Users.email == payload['email'])
 
         user_dict = model_to_dict(user)
 
@@ -82,7 +82,7 @@ def login():
                 status=401
             ), 401
 
-    except schema.DoesNotExist:
+    except models.DoesNotExist:
         print('username is no good')
         return jsonify(
             data={},

@@ -5,6 +5,7 @@ import os
 from dotenv import load_dotenv
 from resources.entries import entries
 from resources.users import users
+import models
 
 load_dotenv()
 
@@ -25,4 +26,5 @@ def index():
     return "app.send_static_file('index.html')"
 
 if __name__ == '__main__':
+    models.initialize()
     app.run(debug=DEBUG, port=PORT)

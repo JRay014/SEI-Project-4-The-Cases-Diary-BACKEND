@@ -1,12 +1,7 @@
 from peewee import *
 from flask_login import UserMixin
 
-db = PostgresqlDatabase(
-    'Entries',
-    user = 'postgres',
-    password = 'secret',
-    host = 'db.mysite.com'
-)
+DATABASE = PostgresqlDatabase('entries', user='postgres')
 
 class Users(UserMixin, Model):
     username = CharField(unique=True)
@@ -14,7 +9,7 @@ class Users(UserMixin, Model):
     password = CharField()
 
     class Meta:
-        database = db
+        database = DATABASE
 
 
 
@@ -24,17 +19,17 @@ class Entries(Model):
     description = CharField()
     decision = CharField()
     keywords = CharField()
-    foreign_key = ForeignKeyField(Users, backref='my_entries')
+    foreign_key = ForeignKeyField(Users, backref='my_entries', null=True)
 
     class Meta:
-        database = db
+        database = DATABASE
 
 
 
 def initialize():
-    db.connect()
+    DATABASE.connect()
 
-    db.create_tables( [Users, Entries], safe=True)
+    DATABASE.create_tables( [Users, Entries], safe=True)
     print("Connected to the DB and created tables")
 
-    db.close()
+    DATABASE.close()
