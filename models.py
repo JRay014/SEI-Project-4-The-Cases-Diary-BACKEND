@@ -1,7 +1,11 @@
 from peewee import *
 from flask_login import UserMixin
+import os
+from playhouse.db_url import connect
 
-DATABASE = PostgresqlDatabase('entries', user='postgres')
+DATABASE = connect(os.environ.get('DATABASE_URL') or PostgresqlDatabase('entries', user='postgres'))
+# Connect to the database URL defined in the environment, falling
+# back to a local Sqlite database if no database URL is specified.
 
 class Users(UserMixin, Model):
     username = CharField(unique=True)
@@ -29,7 +33,7 @@ class Entries(Model):
 def initialize():
     DATABASE.connect()
 
-    DATABASE.create_tables( [Users, Entries], safe=True)
+    DATABASE.create_tables([Users, Entries], safe=True)
     print("Connected to the DB and created tables")
 
     DATABASE.close()
