@@ -3,7 +3,7 @@ from flask_login import UserMixin
 import os
 from playhouse.db_url import connect
 
-DATABASE = connect(os.environ.get('DATABASE_URL') or PostgresqlDatabase('entries', user='postgres'))
+DATABASE = connect(os.environ.get('DATABASE_URL') or 'postgresql://postgres:7889@localhost:5432/entries')
 # Connect to the database URL defined in the environment, falling
 # back to a local Sqlite database if no database URL is specified.
 
