@@ -15,8 +15,8 @@ PORT = 8000
 app = Flask(__name__, static_folder='../build', static_url_path='/')
 
 CORS(app)
-CORS(entries, origins=['http://localhost:3000'], supports_credentials=True)
-CORS(users, origins=['http://localhost:3000'], supports_credentials=True)
+CORS(entries, origins=['http://localhost:3000', 'https://cases-diary-frontend.herokuapp.com'], supports_credentials=True)
+CORS(users, origins=['http://localhost:3000', 'https://cases-diary-frontend.herokuapp.com'], supports_credentials=True)
 
 app.register_blueprint(entries, url_prefix='/api/entries')
 app.register_blueprint(users, url_prefix='/api/users')
